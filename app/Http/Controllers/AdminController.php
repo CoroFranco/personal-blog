@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -66,5 +67,20 @@ class AdminController
             'success' => true,
             'message' => 'Post eliminado correctamente'
         ], 200);
+    }
+
+    public function login(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        
+        $user = User::where('email', $validated['email'])->first();
+        $blogs = Blog::all();
+
+        
+        if($user && $user->password == $validated['password']){
+            return view('admin', compact('blogs'));
+        }
     }
 }

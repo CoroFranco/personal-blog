@@ -15,3 +15,6 @@ Route::post('/admin/create', [AdminController::class, 'createPost'])->name('crea
 Route::post('/admin/update', [AdminController::class, 'updatePost'])->name('update-post');
 
 
+Route::post('/login', [AdminController::class, 'login'])->name('login');
+
+
