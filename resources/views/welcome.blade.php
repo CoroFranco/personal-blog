@@ -24,7 +24,7 @@
                     <input type="email" name="email" class="border-2 border-gray-400 rounded-md p-2">
                     <label for="password" class="text-gray-500">Password</label>
                     <input type="password" name="password" class="border-2 border-gray-400 rounded-md p-2">
-                    <button type="submit">Login</button>
+                    <button id="login" class="bg-black text-gray-100 font-semibold px-3 text-[1.2rem] py-1 rounded-lg hover:bg-[#383838] mt-8" type="submit">Login</button>
                 </form>
             </div>
 
@@ -54,6 +54,8 @@
     <script>
         const openLogin = document.getElementById('openLogin');
         const formLogin = document.getElementById('formLogin');
+        const loginBtn = document.getElementById('login');
+
         openLogin.addEventListener('click',()=>{
             gsap.to(formLogin,{
                 duration:0.5,
@@ -69,6 +71,9 @@
                 })
             }
         })
+
+
+
     </script>
 </body>
 </html>
