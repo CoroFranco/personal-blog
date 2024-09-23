@@ -9,9 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <header class="flex justify-between max-w-[1200px] py-6 w-[95%] m-auto place-items-center">
+    <header class="flex flex-col md:flex-row justify-between max-w-[1200px] py-6 w-[95%] m-auto place-items-center"> 
         <h1 class="text-[2rem] font-bold">Manage Posts</h1>
         <a href="/admin/create" class="bg-black text-gray-100 font-semibold px-3 text-[0.9rem] py-1 rounded-lg hover:bg-[#383838]">+ New Post</a href="/admin/create">
+          <form action="{{route('logout')}}" method="POST">
+            @csrf
+            <button type="submit" class="bg-black text-gray-100 font-semibold px-3 text-[0.9rem] py-1 rounded-lg hover:bg-[#383838]">Logout</button>
+          </form>
     </header>
 
     <main class="max-w-[1200px] w-[95%] m-auto">

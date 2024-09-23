@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\User;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Validation\ValidationException as ValidationValidationException;
 
 class AdminController
 {
@@ -69,18 +71,33 @@ class AdminController
         ], 200);
     }
 
-    public function login(Request $request){
-        $validated = $request->validate([
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        
-        $user = User::where('email', $validated['email'])->first();
-        $blogs = Blog::all();
-
-        
-        if($user && $user->password == $validated['password']){
-            return view('admin', compact('blogs'));
+    
+        // Intenta autenticar al usuario con las credenciales proporcionadas
+        if (Auth::attempt($credentials)) {
+            // Regenera la sesión para prevenir ataques de fijación de sesión
+            $request->session()->regenerate();
+    
+            // Redirecciona a la página de admin
+            return redirect()->route('admin');
         }
+    
+        // Si las credenciales no son correctas, redirige de nuevo a la página de login con un mensaje de error
+        return back()->withErrors([
+            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
     }
 }

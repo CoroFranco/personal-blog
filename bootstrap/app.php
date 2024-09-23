@@ -11,7 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+
+        $middleware->web([
+            \App\Http\Middleware\DisableCache::class,
+        ]);
+
+        $middleware->alias([
+            'IsAdmin' => \App\Http\Middleware\IsAdmin::class
+
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
